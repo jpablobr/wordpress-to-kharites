@@ -4,14 +4,13 @@ require 'hpricot'
 require 'time'
 require 'sequel'
 
-# Change this to load the DB for your blog
+# Change this to load the DB for your Kharites instance
 DB = Sequel.connect('sqlite://blog.db')
 puts DB.class
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/lib')
-require 'post'
+require 'note'
 
-puts Post.class
 if ARGV.length == 0
   puts 'I require an XML file name to be passed as an argument.'
   exit 1
@@ -39,26 +38,26 @@ doc = Hpricot( File.open(file) )
     content = item.search("content:encoded").first.inner_text.to_s
     
     if content.strip.empty?
-      puts "Failed to parse postId #{post_id}:#{title}"
+      puts "Failed to parse noteId #{post_id}:#{title}"
       next
     end
     
     begin
-      post = Post.new( 
+      note = Note.new( 
                       :id => post_id, 
                       :title => title, 
                       :tags => tags.join(' '), 
                       :body => content, 
                       :created_at => time, 
-                      :slug => Post.make_slug(title)
+                      :slug => Note.make_slug(title)
                       )
-      post.save
-      puts "Saved post: id ##{post.id} #{title}"
+      note.save
+      puts "Saved note: id ##{note.id} #{title}"
 
     rescue Exception => e
       puts e.message
       puts e.backtrace.inspect
-      puts "ERROR! could not save post #{title}"
+      puts "ERROR! could not save note #{title}"
       raise
     end 
   end
