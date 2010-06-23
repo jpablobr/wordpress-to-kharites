@@ -5,8 +5,7 @@ require 'time'
 require 'sequel'
 
 # Change this to load the DB for your Kharites instance
-DB = Sequel.connect('sqlite://blog.db')
-puts DB.class
+DB = Sequel.connect('sqlite://notes.db')
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/lib')
 require 'note'
@@ -43,7 +42,7 @@ doc = Hpricot( File.open(file) )
     end
     
     begin
-      note = Note.new( 
+      note = Kharites::Note.new( 
                       :id => post_id, 
                       :title => title, 
                       :tags => tags.join(' '), 
