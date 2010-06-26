@@ -1,5 +1,7 @@
 # wordpress-to-kharites #
 
+Disclaimer: this is just a test for a Kharites sequel branch (may be for DB agnosticism).
+
 Take Wordpress entries and import them into Kharites. All that is needed is Kharites and an exported XML file from your Wordpress blog.
 
 'import.rb' takes a command-line argument: the XML file to be imported into Kharites.
